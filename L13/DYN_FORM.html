@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Формы</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <form id="ogo">Для публикации Вашей статьи заполните, пожалуйста, следующую форму: </br></form>
+    <script src="http://fe.it-academy.by/JQ/jquery.js"></script>
+    <script>
+        "use strict"
+
+        /*  var formDef1 =
+             [
+                 { label: 'Название сайта:', kind: 'longtext', name: 'sitename' },
+                 { label: 'URL сайта:', kind: 'longtext', name: 'siteurl' },
+                 { label: 'Посетителей в сутки:', kind: 'number', name: 'visitors' },
+                 { label: 'E-mail для связи:', kind: 'shorttext', name: 'email' },
+                 {
+                     label: 'Рубрика каталога:', kind: 'combo', name: 'division',
+                     variants: [{ text: 'здоровье', value: 1 }, { text: 'домашний уют', value: 2 }, { text: 'бытовая техника', value: 3 }]
+                 },
+                 {
+                     label: 'Размещение:', kind: 'radio', name: 'payment',
+                     variants: [{ text: 'бесплатное', value: 1 }, { text: 'платное', value: 2 }, { text: 'VIP', value: 3 }]
+                 },
+                 { label: 'Разрешить отзывы:', kind: 'check', name: 'votes' },
+                 { label: 'Описание сайта:', kind: 'memo', name: 'description' },
+                 { label: 'Опубликовать:', kind: 'submit' },
+             ];
+ 
+         var formDef2 =
+             [
+                 { label: 'Фамилия:', kind: 'longtext', name: 'lastname' },
+                 { label: 'Имя:', kind: 'longtext', name: 'firstname' },
+                 { label: 'Отчество:', kind: 'longtext', name: 'secondname' },
+                 { label: 'Возраст:', kind: 'number', name: 'age' },
+                 { label: 'Зарегистрироваться:', kind: 'submit' },
+             ]; */
+
+        /* 
+                    const a = document.getElementById("ogo"); */
+
+        function download() {
+            $.ajax("FORM.json",
+                { type: 'GET', dataType: 'json', success: createForm, error: errorHandler }
+            );
+        }
+
+        download();
+
+        function createForm(data) {
+
+            alert("igogog");
+
+            /* for (const i of massiv) {
+                let label = document.createElement('label')
+                label.innerText = i.label;
+                document.body.appendChild(label);
+                if (i.kind == 'longtext') {
+
+                    let b = document.createElement('input');
+                    b.type = 'text';
+
+                    document.body.appendChild(b);
+                    let bb = document.createElement('br')
+                    document.body.appendChild(bb);
+
+                }
+
+                if (i.kind === 'number') {
+                    let c = document.createElement('input');
+                    c.type = 'text';
+                    document.body.appendChild(c);
+                    let bb = document.createElement('br')
+                    document.body.appendChild(bb);
+                }
+
+                if (i.kind === 'shorttext') {
+                    let d = document.createElement('input');
+                    d.type = 'text';
+                    document.body.appendChild(d);
+                    let bb = document.createElement('br')
+                    document.body.appendChild(bb);
+                }
+
+                if (i.kind === 'combo') {
+                    let e = document.createElement('select');
+                    document.body.appendChild(e);
+                    for (const iterator of i.variants) {
+                        let f = document.createElement('option');
+                        f.value = iterator.value;
+                        f.innerText = iterator.text;
+                        e.appendChild(f);
+                        let bb = document.createElement('br')
+                        document.body.appendChild(bb);
+                    }
+
+
+                }
+
+                if (i.kind === 'radio') {
+                    for (const it of i.variants) {
+                        let g = document.createElement('input');
+                        g.type = 'radio';
+                        g.value = it.value;
+                        g.innerText = it.text;
+                        document.body.appendChild(g);
+                        let bb = document.createElement('br')
+
+                    }
+                    let bb = document.createElement('br')
+                    document.body.appendChild(bb);
+
+                }
+
+                if (i.kind === 'check') {
+                    let h = document.createElement('input');
+                    h.type = 'checkbox';
+                    document.body.appendChild(h);
+                    let bb = document.createElement('br')
+                    document.body.appendChild(bb);
+                }
+
+                if (i.kind === 'memo') {
+                    let j = document.createElement('textarea');
+                    document.body.appendChild(j);
+                    let bb = document.createElement('br')
+                    document.body.appendChild(bb);
+                }
+
+                if (i.kind === 'submit') {
+                    let o = document.createElement('input');
+                    o.type = 'submit';
+                    o.value = i.label;
+                    document.body.appendChild(o);
+                    let bb = document.createElement('br')
+                    document.body.appendChild(bb);
+                }
+
+            }
+ */
+        }
+
+        function errorHandler(jqXHR,statusStr,errorStr) {
+        alert(statusStr+' '+errorStr);
+    }
+
+
+/*         createForm(formDef1);
+
+        createForm(formDef2); */
+
+    </script>
+
+</body>
+
+</html>

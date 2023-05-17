@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Алкомаркет
+    </title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <script>
+        "use strict"
+
+        
+        class LocalStorageFunc {
+            constructor(type) {
+                this.type = type;
+                if (!localStorage[this.type]) {
+                this.storage = {};
+            } 
+                else this.storage = JSON.parse(localStorage[this.type]);
+            }
+
+            addValue(key, value) {
+                this.storage[key] = value;
+                localStorage[this.type] = JSON.stringify(this.storage);
+                
+            }
+
+            getValue(key) {
+
+                if (key in this.storage)
+                    return 'алкогольность ' + (this.storage[key].a === true ? "да" : "нет") + " рецепт " + this.storage[key].b;
+                else
+                    return 'нема такого, пробуй ещё';
+            }
+
+            deleteValue(key) {
+                if (key in this.storage) { delete this.storage[key]; 
+             localStorage[this.key] = JSON.stringify(this.storage);
+                return "готово"; }
+                else return "иди в сраку, нет такого";
+                
+            }
+
+            getKeys() {
+                var all = [];
+                for (var i in this.storage)
+                    all.push(i);
+                return all;
+            }
+        }
+
+        var drinkStorage = new LocalStorageFunc("alco");
+        var foodStorage = new LocalStorageFunc("food");
+
+
+
+        function userAddValue() {
+            let name = prompt("Введите название алко");
+
+            let alco = confirm("Если он алкогольный, нажмите ОК, если нет Отмена");
+            let recept = prompt('Введите его рецепт')
+            drinkStorage.addValue(name, { a: alco, b: recept });
+            alert("Готово! Добавлен алкоголь: " + name + " Алкогольный: " + (alco ? 'да' : 'нет') + ' рецепт ' + recept);
+        }
+
+        function userGetValue() {
+            let name = prompt("Введите название алко");
+            alert(drinkStorage.getValue(name));
+        }
+
+        function userDeleteValue() {
+            let name = prompt("Введите название алко");
+            (alert(drinkStorage.deleteValue(name)))
+
+        }
+
+        function userGetKeys() {
+            alert(drinkStorage.getKeys());
+        }
+
+
+        function userAddValue2() {
+            let name = prompt("Введите название блюда");
+
+            let alco = confirm("Если оно вкусное, нажмите ОК, если нет Отмена");
+            let recept = prompt('Введите его рецепт')
+            foodStorage.addValue(name, { a: alco, b: recept });
+            alert("Готово! Добавлено блюдо: " + name + " вкусный: " + (alco ? 'да' : 'нет') + ' рецепт ' + recept);
+        }
+
+        function userGetValue2() {
+            let name = prompt("Введите название блюда");
+            alert(foodStorage.getValue(name));
+        }
+
+        function userDeleteValue2() {
+            let name = prompt("Введите название блюда");
+            (alert(foodStorage.deleteValue(name)))
+
+        }
+
+        function userGetKeys2() {
+            alert(foodStorage.getKeys());
+        }
+
+    </script>
+
+    <input type="button" value="Добавить алко" onclick="userAddValue()">
+    <input type="button" value="Просмотреть алко" onclick="userGetValue()">
+    <input type="button" value="Удалить алко" onclick="userDeleteValue()">
+    <input type="button" value="Список алко" onclick="userGetKeys()">
+</br>
+</br>
+    <input type="button" value="Добавить блюдо" onclick="userAddValue2()">
+    <input type="button" value="Просмотреть блюдо" onclick="userGetValue2()">
+    <input type="button" value="Удалить блюдо" onclick="userDeleteValue2()">
+    <input type="button" value="Список блюд" onclick="userGetKeys2()">
+
+</body>
+
+</html>

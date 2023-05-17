@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <script>
+        'use strict'
+        let a = prompt("Введите любую фразу");
+       
+       
+        function vowelsForEach (a) {
+            let b = a.toLowerCase().split('');
+            let sum = 0;
+            function f(v) {if (['а', 'о', 'у', 'е', 'ё', 'и', 'ы', 'я', 'э', 'ю'].includes(v))
+                    sum++;
+            }
+            b.forEach(f);
+            return sum;
+        }
+
+        alert(vowelsForEach (a))
+
+        let c = prompt("Введите любую фразу");
+
+          function vowelsFilter (c) {
+            let b = c.toLowerCase().split('');
+            function ff(v) { return v === 'а' || v === 'о' || v === 'у' || v === 'е' || v === 'ё' || v === 'и' || v === 'ы' || v === 'я' || v === 'э' || v === 'ю'  }
+            let vowels = b.filter(ff);
+            return vowels.length;
+        }
+        alert(vowelsForEach (c))
+        
+
+        
+        let d = prompt("Введите любую фразу");
+
+        function vowelsReduce (d) {
+            let b = d.toLowerCase().split('');
+            function fff (r,v) {if (['а', 'о', 'у', 'е', 'ё', 'и', 'ы', 'я', 'э', 'ю'].includes(v))
+                    r++;
+                    return r;  
+            }
+            
+            return b.reduce(fff,0);
+
+        }
+ 
+        alert (vowelsReduce (d) )
+
+
+/*         function ogogo(a) {
+            a = a.toLowerCase();
+            let sum = 0;
+            for (let i of a) {
+                if (['а', 'о', 'у', 'е', 'ё', 'и', 'ы', 'я', 'э', 'ю'].includes(i)) 
+                    sum++;
+            }
+            return sum;
+        }  */
+       
+    </script>
+</body>

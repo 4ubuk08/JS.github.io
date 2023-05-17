@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    
+    <script src="COUNTRIES.JS"></script>
+    <script>
+        var countrysH = {};
+
+
+
+        addCountry('Германия', 'Берлин');
+        addCountry('Венгрия', 'Будапешт');
+        addCountry('Франция', 'Париж');
+
+        console.log("список стран:" + listCountrys());
+        
+        function userAddCountry (){
+            let countryName = prompt("Введите название страны");
+            let capitalName = prompt("Введите название столицы");
+            addCountry(countryName, capitalName);
+            alert("Готово! Добавлена страна: "  + countryName + "столица: " + capitalName);
+        }
+        
+        function userDeleteCountry (){
+            let countryName = prompt("Введите название страны");
+            delete countrysH[countryName];
+            alert("Готово! Информация удалена")
+        }
+
+        function userGetCountryInfo(){
+            let countryName = prompt("Введите название страны");
+            alert(getCountryInfo(countryName));
+        }
+
+        function userListCountrys() {
+            alert(listCountrys());
+        }
+
+        </script>
+
+        
+
+<input type="button" value="Добавить страну" onclick="userAddCountry()">
+
+<input type="button" value="Удалить страну" onclick="userDeleteCountry()">
+
+<input type="button" value="Просмотреть страну" onclick="userGetCountryInfo()">
+
+<input type="button" value="Список стран" onclick="userListCountrys()">
+
+
+</body>

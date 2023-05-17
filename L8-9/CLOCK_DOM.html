@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tik-tak</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <style>
+        #container {
+            position: relative;
+
+        }
+
+        .tablo {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            border: solid 2px black;
+            border-radius: 50%;
+        }
+
+        .numbers {
+            position: absolute;
+            border: solid 2px black;
+            border-radius: 50%;
+            text-align: center;
+
+
+        }
+
+        .hour {
+            width: 6px;
+            background-color: black;
+            border-radius: 10px;
+
+        }
+
+        .minut {
+            width: 4px;
+            position: absolute;
+            background-color: black;
+            border-radius: 10px;
+
+        }
+
+        .sec {
+            width: 2px;
+            position: absolute;
+            background-color: black;
+            border-radius: 5px;
+
+        }
+
+        .timer {
+            position: absolute;
+            color: black;
+
+        }
+
+    </style>
+
+    <div id="container"></div>
+  
+    <script>
+        "use strict"
+
+        const clockR = 150;
+            const longH = clockR * 0.4;
+            const longM = clockR * 0.7;
+            const longS = clockR * 0.9;
+            const numberR = clockR * 0.25;
+
+        function clockCreate() {
+
+
+            const cont = document.getElementById('container');
+            const tablo = document.createElement('div');
+            tablo.classList.add('tablo');
+            cont.appendChild(tablo);
+            tablo.style.width = clockR * 2 + 'px';
+            tablo.style.height = clockR * 2 + 'px';
+
+            const tabloCenterX = tablo.offsetLeft + clockR;
+            const tabloCenterY = tablo.offsetTop + clockR;
+
+            let hour = document.createElement('div');
+            tablo.appendChild(hour);
+            hour.classList.add('hour');
+            hour.style.position = "absolute";
+            hour.style.left = tabloCenterX - hour.offsetWidth / 2 + 'px';
+            hour.style.top = tabloCenterY - longH*0.9 + 'px';
+            hour.style.transformOrigin = '50% '+longH*0.9+'px';
+            hour.style.height = longH + 'px';
+
+            let minut = document.createElement('div');
+            tablo.appendChild(minut);
+            minut.classList.add('minut');
+            minut.style.position = "absolute";
+            minut.style.left = tabloCenterX - minut.offsetWidth / 2 + 'px';
+            minut.style.top = tabloCenterY - longM*0.9 + 'px';
+            minut.style.transformOrigin = '50% '+longM*0.9+'px';
+            minut.style.height = longM + 'px';
+
+            let sec = document.createElement('div');
+            tablo.appendChild(sec);
+            sec.classList.add('sec');
+            sec.style.position = "absolute";
+            sec.style.left = tabloCenterX - sec.offsetWidth / 2 + 'px';
+            sec.style.top = tabloCenterY - longS*0.9 + 'px';
+            sec.style.height = longS + 'px';
+            sec.style.transformOrigin = '50% '+longS*0.9+'px';
+
+            let timer = document.createElement('div');
+            tablo.appendChild(timer);
+            timer.classList.add('timer');
+            timer.style.top = tabloCenterY * 0.5 + 'px';
+
+
+            let startAngle = 360;
+            let startNumber = 12;
+            for (let i = 0; i < 12; i++) {
+
+
+                let number = document.createElement('div');
+                number.classList.add("numbers")
+                number.innerHTML = startNumber;
+                tablo.appendChild(number);
+                number.style.height = numberR + 'px';
+                number.style.width = numberR + 'px';
+                number.style.lineHeight = numberR + 'px';
+
+                let numberCenterX = tabloCenterX + clockR * 0.85 * Math.sin(startAngle / 180 * Math.PI);
+                let numberCenterY = tabloCenterY - clockR * 0.85 * Math.cos(startAngle / 180 * Math.PI);
+
+                number.style.left = Math.round(numberCenterX - number.offsetWidth / 2) + 'px';
+                number.style.top = Math.round(numberCenterY - number.offsetHeight / 2) + 'px';
+
+                startAngle -= 30;
+                startNumber -= 1;
+            }
+
+            setInterval(clock, 1000);
+
+            function clock() {
+                let nowTime = new Date();
+                let nowHours = nowTime.getHours();
+                let nowMimutes = nowTime.getMinutes();
+                let nowSeconds = nowTime.getSeconds();
+                let hoursPos = nowHours * 30 + nowMimutes * 0.5;
+                let minutePos = nowMimutes * 6 + nowSeconds * 0.1;
+                let secondsPos = nowSeconds * 6;
+                timer.innerHTML = str0l(nowHours) + ':' + str0l(nowMimutes) + ':' + str0l(nowSeconds);
+                timer.style.left = tabloCenterX - timer.offsetWidth / 2 + 'px';
+
+
+                sec.style.transform = 'rotate(' + secondsPos + 'deg)';
+                minut.style.transform = 'rotate(' + minutePos + 'deg)';
+                hour.style.transform = 'rotate(' + hoursPos + 'deg)';
+            }
+
+            function str0l(val) {
+                let strVal = val.toString();
+                if (strVal.length < 2)
+                    strVal = '0' + strVal;
+                return strVal;
+            }
+
+
+        }
+
+        clockCreate();
+
+
+
+
+    </script>
+</body>
+
+</html>

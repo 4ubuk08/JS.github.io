@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <title>CLOCK_CANVAS</title>
+</head>
+
+<body>
+    <script>
+        'use strict';
+        const diametrClock=600; //задаем диаметри часов
+        const konteiner=document.createElement('canvas'); //контейнер, в котором часы
+        konteiner.id='clock';
+        konteiner.width=konteiner.height=diametrClock;
+        document.body.appendChild(konteiner);
+
+        function createClock() {
+
+            let clock = document.getElementById('clock');
+            let context = konteiner.getContext("2d");
+
+            const clockCenterX = clock.width/2;
+            const clockCenterY = clock.height/2;
+            const radius = clock.width/2;
+            const CLOCK_NUMBER = 12;
+            let ANGLE_VALUE = 0;
+            let DISTANCE_OF_DIGITS = 30;
+            let clockNumberRadius = radius*0.15;
+            let clockNumberOkrRadius = radius*0.8;
+            let numberSize = radius*0.1+'px';
+            let numberDigSize = radius*0.15+'px';
+            let strHeithChas = radius*0.6;
+            let strWidthChas = radius*0.03;
+            let strWidthMin = radius*0.02;
+            let strHeithMin = radius*0.8;
+            let strWidthSek = radius*0.01;
+            let strHeithSek = radius*0.9;
+            let sdvigStr = radius*0.1;
+
+
+            //удаляем все
+            context.fillStyle = "white";
+            context.fillRect(0, 0, clock.width, clock.height);
+
+            //создаем сами часы
+            context.beginPath();
+            context.fillStyle = 'yellow';
+            context.arc(clockCenterX, clockCenterY, radius, 0, Math.PI * 2, false);
+            context.fill();
+
+            for (let i = 1; i <= CLOCK_NUMBER; i++) {
+
+                ANGLE_VALUE += DISTANCE_OF_DIGITS; // по кругу в цикле продвигаемся на шаг через 30 градусов
+                const angle = ANGLE_VALUE/180*Math.PI; // градусы переводим в радианы
+                let greenCenterX = Math.round(clockCenterX+clockNumberOkrRadius*Math.sin(angle));
+                let greenCenterY = Math.round(clockCenterY-clockNumberOkrRadius*Math.cos(angle));
+
+                context.beginPath();
+                context.fillStyle = 'green';
+                context.arc(greenCenterX, greenCenterY, clockNumberRadius, 0, Math.PI * 2, false);
+                context.fill();
+
+                context.beginPath();
+                context.fillStyle = 'black';
+                context.font = 'normal normal ' + numberSize + ' Arial';
+                context.textAlign = 'center';
+                context.textBaseline = 'middle';
+                context.fillText(i, greenCenterX, greenCenterY);
+            }
+
+            const currentDay = new Date();
+            const hours = currentDay.getHours();
+            const minutes = currentDay.getMinutes();
+            const seconds = currentDay.getSeconds();
+
+            const angleHours = 30*(hours+(1/60)*minutes);
+            const angleMinuts = 6*(minutes+(1/60)*seconds);
+            const angleSekonds = 6*seconds;
+
+
+            context.strokeStyle = 'black'; //рисуем часовую стрелку
+            context.lineWidth = strWidthChas;
+            context.lineCap = "round";
+            context.beginPath();
+            context.moveTo(clockCenterX, clockCenterY);
+            context.lineTo(clockCenterX + strHeithChas * Math.cos(Math.PI / 2 - angleHours * (Math.PI / 180)),
+                clockCenterY - strHeithChas * Math.sin(Math.PI / 2 - angleHours * (Math.PI / 180)));
+            context.stroke();
+            context.closePath();
+
+            context.strokeStyle = 'black'; //рисуем минутную стрелку
+            context.lineWidth = strWidthMin;
+            context.lineCap = "round";
+            context.beginPath();
+            context.moveTo(clockCenterX, clockCenterY);
+            context.lineTo(clockCenterX + strHeithMin * Math.cos(Math.PI / 2 - angleMinuts * (Math.PI / 180)),
+                clockCenterY - strHeithMin * Math.sin(Math.PI / 2 - angleMinuts * (Math.PI / 180)));
+            context.stroke();
+            context.closePath();
+
+            context.strokeStyle = 'black'; //рисуем секундную стрелку
+            context.lineWidth = strWidthSek;
+            context.lineCap = "round";
+            context.beginPath();
+            context.moveTo(clockCenterX, clockCenterY);
+            context.lineTo(clockCenterX + strHeithSek * Math.cos(Math.PI / 2 - angleSekonds * (Math.PI / 180)),
+                clockCenterY - strHeithSek * Math.sin(Math.PI / 2 - angleSekonds * (Math.PI / 180)));
+            context.stroke();
+            context.closePath();
+
+            context.beginPath();
+            context.fillStyle = 'black';
+            context.font = 'normal normal ' + numberDigSize + ' Arial';
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
+            context.fillText(currentDay.toLocaleTimeString(), clockCenterX, clockCenterY / 2);
+        }
+        // Запускаем часы
+        setTimeout(function run() {
+            var time = new Date();
+            var mSec = time.getMilliseconds()
+            createClock();
+            setTimeout(run, 1000 - mSec + 20);
+        }, 20);
+
+    </script>
+</body>
+
+</html>

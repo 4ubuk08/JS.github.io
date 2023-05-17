@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Песнионный фонд РФ</title>
+</head>
+
+<body>
+    <script>
+
+        do {
+            var firstName = prompt('Введите имя');
+
+        } while (firstName === null || firstName === "");
+
+        do {
+            var secondName = prompt('Введите фамилию');
+
+        } while (secondName === null || secondName === "");
+
+
+        do {
+            var thirdName = prompt('Введите отчество');
+
+        } while (thirdName === null || thirdName === "");
+
+
+        do {
+            var age1 = prompt('Сколько Вам лет?');
+            var age2 = parseInt(age1)
+        } while (isNaN(age1)||age1 === null );
+
+        var ageDay = age2 * 365;
+        var ageFive = age2 + 5;
+
+        var sex = confirm('Ваш пол?Ок - муж, отмена - жен');
+        var sex2 = (sex ? 'муж' : 'жен');
+
+        var pens
+
+        if (sex) {
+            if (age2 > 59)
+                pens = 'да';
+            else
+                pens = 'нет';
+        }
+        else {
+            if (age2 > 54)
+                pens = 'да';
+            else
+                pens = 'нет';
+        }
+
+
+
+        alert('ваше ФИО:' + firstName + ' ' + secondName + ' ' + thirdName + '\n' +
+            'Ваш возраст в годах:' + age2 + '\n' +
+            'ваш возраст в днях:' + ageDay + '\n' +
+            'через пять лет Вам будет:' + ageFive + '\n' +
+            'Ваш пол:' + sex2 + '\n' +
+            'Вы на пенсии:' + pens)
+
+
+    </script>
+</body>

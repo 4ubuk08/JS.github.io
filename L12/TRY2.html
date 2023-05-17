@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<head>
+    <title>
+        Time
+    </title>
+    <meta charset="UTF-8">
+
+<body>
+    <style>
+        .hour {
+            width: 6px;
+            background-color: black;
+            border-radius: 10px;
+
+        }
+
+        .minut {
+            width: 4px;
+            position: absolute;
+            background-color: black;
+            border-radius: 10px;
+
+        }
+
+        .sec {
+            width: 2px;
+            position: absolute;
+            background-color: black;
+            border-radius: 5px;
+
+        }
+
+        .timer {
+            position: absolute;
+            color: black;
+
+        }
+    </style>
+    
+    <script src="ClockModel.js"></script>
+    <script src="ClockDomWiew.js"></script>
+    <script src="ClockSVGWiew.js"></script>
+    <script>
+        "use strict"
+
+
+
+
+
+
+
+
+        let BelarusClock = new Clock(+1);
+        let BelarusClockWiew = new ClockDomWiew(150, "Минск", 0, 0);
+
+        BelarusClock.start(BelarusClockWiew);
+        BelarusClockWiew.start(BelarusClock);
+        BelarusClock.clockStart();
+
+        let RussiaClock = new Clock(+3);
+        let RussiaClockWiew = new ClockDomWiew(150, "Москва", 350, 350);
+
+         RussiaClock.start(RussiaClockWiew);
+        RussiaClockWiew.start(RussiaClock);
+        RussiaClock.clockStart();  
+
+        let LondonClock = new Clock(0);
+        let LondonClockWiew = new ClockSVGWiew(150, "Лондон", 0, 300);
+
+        LondonClock.start(LondonClockWiew);
+        LondonClockWiew.start(LondonClock);
+        LondonClock.clockStart();
+
+        let VladClock = new Clock(+9);
+        let VladClockWiew = new ClockSVGWiew(150, "Владивосток", 300, 300);
+
+        VladClock.start(VladClockWiew);
+        VladClockWiew.start(VladClock);
+        VladClock.clockStart();
+
+        
+
+    </script>
+</body>
+</head>

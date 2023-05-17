@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Формы</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <script src="http://fe.it-academy.by/JQ/jquery.js"></script>
+    <script>
+        "use strict"
+
+        let ajaxHandlerScript = "https://fe.it-academy.by/AjaxStringStorage2.php";
+        var updatePassword;
+        let stringName = 'CHUBUKOV_FORM_TEST';
+        let boom;
+
+        var formDef1 =
+        {
+            "негрони": {
+                "a": true,
+                "b": "джин вермут"
+            },
+            "американо": {
+                "a": true,
+                "b": "вермут кампари"
+            }
+        };
+
+        var formDef2 =
+        {
+            "негрони": {
+                "a": true,
+                "b": "джин вермут"
+            },
+            "американо": {
+                "a": true,
+                "b": "вермут кампари"
+            }
+        };
+
+
+
+        function storeInfo() {
+            updatePassword = Math.random();
+            $.ajax({
+                url: ajaxHandlerScript, type: 'POST', cache: false, dataType: 'json',
+                data: { f: 'LOCKGET', n: stringName, p: updatePassword },
+                success: lockGetReady, error: errorHandler
+            }
+            );
+        }
+
+        function lockGetReady(callresult) {
+            if (callresult.error != undefined)
+                alert(callresult.error);
+            else {
+
+                var info = formDef2;
+                $.ajax({
+                    url: ajaxHandlerScript, type: 'POST', cache: false, dataType: 'json',
+                    data: { f: 'UPDATE', n: stringName, v: JSON.stringify(info), p: updatePassword },
+                    success: updateReady, error: errorHandler
+                }
+                );
+            }
+        }
+
+        function updateReady(callresult) {
+            if (callresult.error != undefined)
+                alert(callresult.error);
+        }
+
+        function restoreInfo() {
+            $.ajax(
+                {
+                    url: ajaxHandlerScript, type: 'POST', cache: false, dataType: 'json',
+                    data: { f: 'READ', n: stringName },
+                    success: readReady, error: errorHandler
+                }
+            );
+        }
+
+        function readReady(callresult) {
+            if (callresult.error != undefined)
+                alert(callresult.error);
+            else if (callresult.result != "") {
+                boom = JSON.parse(callresult.result);
+                createForm(boom);
+            }
+        }
+
+        function errorHandler(jqXHR, statusStr, errorStr) {
+            alert(statusStr + ' ' + errorStr);
+        }
+
+
+        function createForm(massiv) {
+
+            for (const i of massiv) {
+                let label = document.createElement('label')
+                label.innerText = i.label;
+                document.body.appendChild(label);
+                if (i.kind == 'longtext') {
+
+                    let b = document.createElement('input');
+                    b.type = 'text';
+
+                    document.body.appendChild(b);
+                    let bb = document.createElement('br')
+                    document.body.appendChild(bb);
+
+                }
+
+
+
+                if (i.kind === 'number') {
+                    let c = document.createElement('input');
+                    c.type = 'text';
+                    document.body.appendChild(c);
+                    let bb = document.createElement('br')
+                    document.body.appendChild(bb);
+                }
+
+                if (i.kind === 'shorttext') {
+                    let d = document.createElement('input');
+                    d.type = 'text';
+                    document.body.appendChild(d);
+                    let bb = document.createElement('br')
+                    document.body.appendChild(bb);
+                }
+
+                if (i.kind === 'combo') {
+                    let e = document.createElement('select');
+                    document.body.appendChild(e);
+                    for (const iterator of i.variants) {
+                        let f = document.createElement('option');
+                        f.value = iterator.value;
+                        f.innerText = iterator.text;
+                        e.appendChild(f);
+                        let bb = document.createElement('br')
+                        document.body.appendChild(bb);
+                    }
+
+
+                }
+
+                if (i.kind === 'radio') {
+                    for (const it of i.variants) {
+                        let g = document.createElement('input');
+                        g.type = 'radio';
+                        g.value = it.value;
+                        g.innerText = it.text;
+                        document.body.appendChild(g);
+                        let bb = document.createElement('br')
+
+                    }
+                    let bb = document.createElement('br')
+                    document.body.appendChild(bb);
+
+                }
+
+                if (i.kind === 'check') {
+                    let h = document.createElement('input');
+                    h.type = 'checkbox';
+                    document.body.appendChild(h);
+                    let bb = document.createElement('br')
+                    document.body.appendChild(bb);
+                }
+
+                if (i.kind === 'memo') {
+                    let j = document.createElement('textarea');
+                    document.body.appendChild(j);
+                    let bb = document.createElement('br')
+                    document.body.appendChild(bb);
+                }
+
+                if (i.kind === 'submit') {
+                    let o = document.createElement('input');
+                    o.type = 'submit';
+                    o.value = i.label;
+                    document.body.appendChild(o);
+                    let bb = document.createElement('br')
+                    document.body.appendChild(bb);
+                }
+
+            }
+
+        }
+
+
+
+        storeInfo();
+        /* restoreInfo(); */
+
+    </script>
+
+
+
+
+</body>
+
+</html>

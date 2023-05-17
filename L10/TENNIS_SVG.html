@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ping Pong</title>
+    <meta charset="UTF-8">
+</head>
+
+<body> 
+    <style>
+                #counter {
+            width: 100%;
+            text-align: center;
+            font-size: 30px;
+        }
+    </style>
+    <input type='button' value='Старт!' onclick='GO2()'>
+    <div id="counter"></div>
+
+    <svg id="container" width="1200" height="500">
+    </svg>
+    <script>
+        "use strict"
+        let countA = 0;
+        let countB = 0;
+        const counter = document.getElementById('counter');
+
+
+        const tableW = 600;
+        const tableH = 350;
+        const tableSPACELeft = 250;
+        const tableSPACETop = 70;
+
+        let BALLR = 20;
+        let BALL;
+        let BALLspeedY = 0;
+        let BALLspeedX = 0;
+        const BALLheight = BALLR * 2;
+        const BALLwidth = BALLheight;
+        const BALLcenterX = tableSPACELeft + tableW / 2;
+        const BALLcenterY = tableSPACETop + tableH / 2;
+        let BALLposX = BALLcenterX;
+        let BALLposY = BALLcenterY;
+
+        document.addEventListener('keydown', PLAYERS, false);
+        document.addEventListener('keyup', PLAYERSUP, false);
+
+        const PLAYERH = 150;
+        const PLAYERW = 10;
+        const checkbox = 20;
+        const PLAYERRad = PLAYERW / 2;
+
+
+        let PLAYER1;
+        let PLAYER1posY = tableSPACETop + tableH / 2 - PLAYERH / 2;
+        let PLAYER1posX = tableSPACELeft;
+
+
+        let PLAYER2;
+        let PLAYER2posY = tableSPACETop + tableH / 2 - PLAYERH / 2;
+        let PLAYER2posX = tableSPACELeft + tableW - PLAYERW;
+
+
+        let PLAYERSPEED = 5;
+        let PLAYER1SPEED = 0;
+        let PLAYER2SPEED = 0;
+
+
+        const container = document.getElementById('container');
+
+        function TABLE_CREATE() {
+
+
+
+            const TABLE = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+
+            TABLE.setAttribute("fill", "yellow");
+            TABLE.setAttribute("width", tableW);
+            TABLE.setAttribute("height", tableH);
+            TABLE.setAttribute("x", tableSPACELeft);
+            TABLE.setAttribute("y", tableSPACETop);
+            container.appendChild(TABLE);
+
+            PLAYER1 = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+            PLAYER1.setAttribute("fill", "green");
+            PLAYER1.setAttribute("width", PLAYERW);
+            PLAYER1.setAttribute("height", PLAYERH);
+            PLAYER1.setAttribute("rx", PLAYERRad);
+            PLAYER1.setAttribute("ry", PLAYERRad);
+            PLAYER1.setAttribute("x", PLAYER1posX);
+            PLAYER1.setAttribute("y", PLAYER1posY);
+            container.appendChild(PLAYER1);
+
+            PLAYER2 = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+            PLAYER2.setAttribute("fill", "blue");
+            PLAYER2.setAttribute("width", PLAYERW);
+            PLAYER2.setAttribute("height", PLAYERH);
+            PLAYER2.setAttribute("rx", PLAYERRad);
+            PLAYER2.setAttribute("ry", PLAYERRad);
+            PLAYER2.setAttribute("x", PLAYER2posX);
+            PLAYER2.setAttribute("y", PLAYER2posY);
+            container.appendChild(PLAYER2);
+
+
+            BALL = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+            BALL.setAttribute("fill", "red");
+            BALL.setAttribute("r", BALLR);
+            BALL.setAttribute("cx", BALLcenterX);
+            BALL.setAttribute("cy", BALLcenterY);
+            container.appendChild(BALL);
+
+            counter.innerHTML=countA + ':' + countB;
+        }
+
+        TABLE_CREATE();
+        requestAnimationFrame(GO1);
+
+        function GO1() {
+
+
+
+            let PLAYER1TOP = PLAYER1posY;
+            let PLAYER1BOT = PLAYER1posY + PLAYERH;
+            let PLAYER2TOP = PLAYER2posY;
+            let PLAYER2BOT = PLAYER2posY + PLAYERH;
+
+            BALLposX += BALLspeedX;
+            BALLposY += BALLspeedY;
+            BALL.setAttribute("cx", BALLposX);
+            BALL.setAttribute("cy", BALLposY);
+
+            if (BALLposX + BALLR >= tableW + tableSPACELeft - PLAYERW && PLAYER2TOP < BALLposY && BALLposY < PLAYER2BOT) {
+                BALLspeedX = -BALLspeedX;
+            } if (BALLposX + BALLR > tableW + tableSPACELeft) {
+                BALLposX  =  tableW + tableSPACELeft - BALLR;
+                BALLspeedX = 0;
+                BALLspeedY = 0;
+                countA++;
+                counter.innerHTML=countA + ':' + countB; 
+            }
+            if (BALLposX - BALLR <= tableSPACELeft + PLAYERW && PLAYER1TOP < BALLposY && BALLposY < PLAYER1BOT) {
+                BALLspeedX = -BALLspeedX;
+            } if (BALLposX - BALLR < tableSPACELeft) {
+                BALLposX = tableSPACELeft + BALLR ;
+                BALLspeedX = 0;
+                BALLspeedY = 0;
+                countB++;
+                counter.innerHTML=countA + ':' + countB; 
+            }
+
+            if (BALLposY + BALLR > tableH + tableSPACETop) {
+                BALLspeedY = -BALLspeedY;
+            }
+            if (BALLposY - BALLR < tableSPACETop) {
+                BALLspeedY = -BALLspeedY;
+            }
+
+
+            if (PLAYER1SPEED == -PLAYERSPEED)
+                if (PLAYER1posY > tableSPACETop) {
+                    PLAYER1posY += PLAYER1SPEED;
+                    PLAYER1.setAttribute("y", PLAYER1posY);
+                } else { PLAYER1posY = tableSPACETop };
+
+            if (PLAYER1SPEED == PLAYERSPEED)
+                if (PLAYER1posY + PLAYERH < tableH + tableSPACETop) {
+                    PLAYER1posY += PLAYER1SPEED;
+                    PLAYER1.setAttribute("y", PLAYER1posY);
+                } else { PLAYER1posY = tableH + tableSPACETop - PLAYERH };
+
+            if (PLAYER2SPEED == -PLAYERSPEED)
+                if (PLAYER2posY > tableSPACETop) {
+                    PLAYER2posY += PLAYER2SPEED;
+                    PLAYER2.setAttribute("y", PLAYER2posY);;
+                } else {
+                    PLAYER2posY = tableSPACETop;
+                }
+
+            if (PLAYER2SPEED == PLAYERSPEED)
+                if (PLAYER2posY + PLAYERH < tableH + tableSPACETop) {
+                    PLAYER2posY += PLAYER2SPEED;
+                    PLAYER2.setAttribute("y", PLAYER2posY);
+                } else {
+                    PLAYER2posY = tableH + tableSPACETop - PLAYERH;
+                }
+                requestAnimationFrame(GO1);
+
+        }
+
+
+
+
+        function GO2() {
+
+            BALL.setAttribute("cx", BALLcenterX);
+            BALL.setAttribute("cy", BALLcenterY);
+            BALLposX = BALLcenterX;
+            BALLposY = BALLcenterY;
+
+            BALLspeedX = ((Math.random() < 0.5) ? -1 : 1) * (Math.floor(Math.random() * 10) + 2);
+            BALLspeedY = ((Math.random() < 0.5) ? -1 : 1) * (Math.floor(Math.random() * 10) + 2);
+
+        };
+
+        function PLAYERS(EO) {
+            EO = EO || window.event;
+            EO.preventDefault();
+            if (EO.code == 'ShiftLeft') { PLAYER1SPEED = -PLAYERSPEED};
+            if (EO.code == 'ControlLeft') { PLAYER1SPEED = PLAYERSPEED };
+            if (EO.code == 'ArrowUp') { PLAYER2SPEED = -PLAYERSPEED };
+            if (EO.code == 'ArrowDown') { PLAYER2SPEED = PLAYERSPEED; };
+        }
+
+        function PLAYERSUP(EO) {
+            EO = EO || window.event;
+            EO.preventDefault();
+            if (EO.code == 'ShiftLeft') { PLAYER1SPEED = 0 };
+            if (EO.code == 'ControlLeft') { PLAYER1SPEED = 0 };
+            if (EO.code == 'ArrowUp') { PLAYER2SPEED = 0 };
+            if (EO.code == 'ArrowDown') { PLAYER2SPEED = 0 };
+        }
+
+
+
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+<!--  if (EO.code == 'ShiftLeft')
+if (PLAYER1posY > tableSPACETop) {
+    PLAYER1posY -= PLAYER1speed;
+    PLAYER1.setAttribute("y", PLAYER1posY);
+} else { PLAYER1posY = tableSPACETop};
+
+if (EO.code == 'ControlLeft')
+if (PLAYER1posY + PLAYERH < tableH+tableSPACETop) {
+    PLAYER1posY += PLAYER1speed;
+    PLAYER1.setAttribute("y", PLAYER1posY);
+} else { PLAYER1posY = tableH+tableSPACETop - PLAYERH };
+
+if (EO.code == 'ArrowUp')
+if (PLAYER2posY > tableSPACETop) {
+    PLAYER2posY -= PLAYER2speed;
+    PLAYER2.setAttribute("y", PLAYER2posY);;
+} else {
+    PLAYER2posY = tableSPACETop;
+}
+
+if (EO.code == 'ArrowDown')
+if (PLAYER2posY + PLAYERH < tableH+tableSPACETop) {
+    PLAYER2posY += PLAYER2speed;
+    PLAYER2.setAttribute("y", PLAYER2posY);
+} else {
+    PLAYER2posY = tableH+tableSPACETop - PLAYERH;
+}   -->

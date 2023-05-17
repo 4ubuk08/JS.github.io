@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tik-tak</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <canvas id='clock' width='350' height='350'></canvas>
+
+    <script>
+        "use strict"
+
+        const clockR = 150;
+        const cloclD = clockR * 2;
+        const space = clockR * 0.1;
+        const longH = clockR * 0.4;
+        const longM = clockR * 0.7;
+        const longS = clockR * 0.9;
+        const numberR = clockR * 0.15;
+        const numberS = 20 + 'px';
+
+        const tabloCenterX = space + clockR;
+        const tabloCenterY = tabloCenterX;
+
+        const timerX = tabloCenterX;
+        const timerY = tabloCenterY * 0.6;
+
+        
+
+        clockCreate();
+        setInterval(clockCreate, 1000);
+
+        function clockCreate() {
+            
+        let nowTime = new Date();
+        let nowHours = nowTime.getHours();
+        let nowMimutes = nowTime.getMinutes();
+        let nowSeconds = nowTime.getSeconds();
+        let hourPos = nowHours * 30 + nowMimutes * 0.5;
+        let minutePos = nowMimutes * 6 + nowSeconds * 0.1;
+        let secondsPos = nowSeconds * 6;
+
+        let clock = document.getElementById('clock');
+        let context = clock.getContext('2d');
+        context.strokeStyle = 'yellow';
+        context.fillStyle = 'yellow';
+        context.beginPath();
+        context.arc(tabloCenterX, tabloCenterY, clockR, 0, Math.PI * 2, false);
+        context.stroke();
+        context.fill();
+
+        let startAngle = 360;
+        let startNumber = 12;
+
+        for (let i = 0; i < 12; i++) {
+
+
+            let numberCenterX = tabloCenterX + clockR * 0.8 * Math.sin(startAngle / 180 * Math.PI);
+            let numberCenterY = tabloCenterY - clockR * 0.8 * Math.cos(startAngle / 180 * Math.PI);
+
+            context.strokeStyle = 'green';
+            context.fillStyle = 'green';
+            context.beginPath();
+            context.arc(numberCenterX, numberCenterY, numberR, 0, Math.PI * 2, false);
+            context.stroke();
+            context.fill();
+
+
+
+            context.fillStyle = 'black';
+            context.beginPath();
+            context.font = 'normal normal ' + numberS + ' Arial';
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
+            context.fillText(startNumber, numberCenterX, numberCenterY);
+
+
+            startAngle -= 30;
+            startNumber -= 1;
+        }
+
+
+        let secX = tabloCenterX + longS * Math.sin(secondsPos / 180 * Math.PI);
+        let secY = tabloCenterY - longS * Math.cos(secondsPos / 180 * Math.PI);
+        let minX = tabloCenterX + longM * Math.sin(minutePos / 180 * Math.PI);
+        let minY = tabloCenterY - longM * Math.cos(minutePos / 180 * Math.PI);
+        let hourX = tabloCenterX + longH * Math.sin(hourPos / 180 * Math.PI);
+        let hourY = tabloCenterY - longH * Math.cos(hourPos / 180 * Math.PI);
+
+
+
+
+        context.fillStyle = 'black';
+        context.beginPath();
+        context.font = 'normal normal ' + numberS + ' Arial';
+        context.textAlign = 'center';
+        context.textBaseline = 'middle';
+        context.fillText(str0l(nowHours) + ':' + str0l(nowMimutes) + ':' + str0l(nowSeconds), timerX, timerY);
+
+
+        context.strokeStyle = 'black';
+        context.fillStyle = 'black';
+        context.beginPath();
+        context.lineWidth = 2;
+        context.lineCap = 'round';
+        context.moveTo(tabloCenterX, tabloCenterY);
+        context.lineTo(secX, secY);
+        context.stroke();
+
+        context.strokeStyle = 'black';
+        context.fillStyle = 'black';
+        context.beginPath();
+        context.lineWidth = 3;
+        context.lineCap = 'round';
+        context.moveTo(tabloCenterX, tabloCenterY);
+        context.lineTo(minX, minY);
+        context.stroke();
+
+        context.strokeStyle = 'black';
+        context.fillStyle = 'black';
+        context.beginPath();
+        context.lineWidth = 5;
+        context.lineCap = 'round';
+        context.moveTo(tabloCenterX, tabloCenterY);
+        context.lineTo(hourX, hourY);
+        context.stroke();
+
+
+        function str0l(val) {
+            let strVal = val.toString();
+            if (strVal.length < 2)
+                strVal = '0' + strVal;
+            return strVal;
+        }
+    }
+
+    </script>
+
+</body>
+
+</html>

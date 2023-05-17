@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Алкомаркет
+    </title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <input class="but" type="button" value="Добавить алко" onclick="userAddValue()">
+    <input class="but" type="button" value="Просмотреть алко" onclick="userGetValue()">
+    <input class="but" type="button" value="Удалить алко" onclick="userDeleteValue()">
+    <input class="but" type="button" value="Список алко" onclick="userGetKeys()">
+
+    <script src="FORM_CONSTRUCTOR.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        "use strict"
+
+        let ajaxHandlerScript = "https://fe.it-academy.by/AjaxStringStorage2.php";
+        let updatePassword;
+        let stringlabel = 'CHUBUKOV_FORM_TEST';
+        let buttons = [];
+
+        function buttonscolection() {
+            buttons = document.getElementsByClassName("but");
+        }
+
+
+        function lock() {
+            for (let index = 0; index < buttons.length; index++) {
+                const element = buttons[index];
+                element.disabled = true;
+            }
+        }
+        buttonscolection();
+/*         lock(); */
+
+        function unlock() {
+            for (let index = 0; index < buttons.length; index++) {
+                const element = buttons[index];
+                element.disabled = false;
+            }
+        }
+
+        let drinkStorage = new HashStorageFunc(lock, unlock);
+
+        function userAddValue() {
+            let label = prompt("Введите название алко");
+
+            let alco = confirm("Если он алкогольный, нажмите ОК, если нет Отмена");
+            let recept = prompt('Введите его рецепт')
+            drinkStorage.startAdd(label, { a: alco, b: recept });
+            alert("Готово! Добавлен алкоголь: " + label + " Алкогольный: " + (alco ? 'да' : 'нет') + ' рецепт ' + recept);
+        }
+
+        function userGetValue() {
+            let label = prompt("Введите название алко");
+            alert(drinkStorage.getValue(label));
+        }
+
+        function userDeleteValue() {
+            let label = prompt("Введите название алко");
+            drinkStorage.startDelete(label);
+            if (drinkStorage.status === true) {
+                alert("Готово")
+            } else {
+                alert("Нет такого")
+            }
+        }
+
+        function userGetKeys() {
+            alert(drinkStorage.getKeys());
+        }
+
+
+        drinkStorage.downloadKeys();
+
+    </script>
+
+
+</body>
+
+</html>

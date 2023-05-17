@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ping Pong</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <style>
+        #container {
+            position: relative;
+        }
+
+        #table {
+            position: relative;
+            background-color: yellow;
+            left: 200px;
+            top: 30px;
+        }
+
+        #ball {
+
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        #player1 {
+
+            background-color: blue;
+            position: absolute;
+
+
+            border-radius: 10px;
+        }
+
+        #player2 {
+
+            background-color: green;
+            position: absolute;
+            border-radius: 10px;
+        }
+
+        #counter {
+            width: 100%;
+            text-align: center;
+            font-size: 30px;
+        }
+    </style>
+
+    <div id="container">
+
+        <input type='button' value='Старт!' onclick='GO2()'>
+        <div id="counter"></div>
+
+
+        <div id="table">
+            <div id="player1"></div>
+            <div id="player2"></div>
+            <div id="ball">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        "use strict"
+        let countA = 0;
+        let countB = 0;
+        const counter = document.getElementById('counter');
+        let text = document.createTextNode("0:0");
+        counter.appendChild(text);
+
+        const tableW = 600;
+        const tableH = 350;
+
+        let BALLR = 20;
+
+        let BALLspeedY;
+        let BALLspeedX;
+        const BALLheight = BALLR * 2;
+        const BALLwidth = BALLheight;
+
+
+        const PLAYERH = 150;
+        const PLAYERW = 10;
+        const checkbox = 20;
+
+        let PLAYER1posY = 100;
+        let PLAYER1speed = 10;
+
+
+        let PLAYER2posY = 100;
+        let PLAYER2speed = 10;
+
+
+
+        const container = document.getElementById('container');
+        const TABLE = document.getElementById('table');
+        const BALL = document.getElementById('ball');
+        const PLAYER1 = document.getElementById('player1');
+        const PLAYER2 = document.getElementById('player2');
+
+        document.addEventListener('keydown', PLAYERS, false);
+
+        TABLE.style.width = tableW + 'px';
+        TABLE.style.height = tableH + 'px';
+
+        BALL.style.width = BALLwidth + 'px';
+        BALL.style.height = BALLheight + 'px';
+        BALL.style.left = tableW / 2 - BALLR + 'px';
+        BALL.style.top = tableH / 2 - BALLR + 'px';
+
+        PLAYER1.style.width = PLAYERW + 'px';
+        PLAYER1.style.height = PLAYERH + 'px';
+        PLAYER1.style.left = 0 + 'px';
+        PLAYER1.style.top = PLAYER1posY + 'px';
+
+        PLAYER2.style.width = PLAYERW + 'px';
+        PLAYER2.style.height = PLAYERH + 'px';
+        PLAYER2.style.left = tableW - PLAYERW + 'px';
+        PLAYER2.style.top = PLAYER2posY + 'px';
+
+
+        function GO2() {
+            BALL.style.left = tableW / 2 - BALLR + 'px';
+            BALL.style.top = tableH / 2 - BALLR + 'px';
+
+
+            BALLspeedX = ((Math.random() < 0.5) ? -1 : 1) * (Math.floor(Math.random() * 10) - 3);
+            BALLspeedY = ((Math.random() < 0.5) ? -1 : 1) * (Math.floor(Math.random() * 10) - 3);
+            requestAnimationFrame(GO1);
+        };
+
+
+        function GO1() {
+
+            let PLAYER1TOP = PLAYER1.offsetTop-checkbox;
+            let PLAYER1BOT = PLAYER1TOP + PLAYERH+2*checkbox;
+            let PLAYER2TOP = PLAYER2.offsetTop-checkbox;
+            let PLAYER2BOT = PLAYER2TOP + PLAYERH+2*checkbox;
+            let BALLcenterY = BALL.offsetTop + BALLR;
+            let BALLcenterX = BALL.offsetLeft + BALLR;
+
+            let BALLposX=BALL.offsetLeft;
+            let BALLposY=BALL.offsetTop;
+
+            BALLposX += BALLspeedX;
+            BALLposY += BALLspeedY;
+            BALL.style.left = BALLposX + 'px';
+            BALL.style.top = BALLposY + 'px';
+            if (BALLposX + BALLwidth + PLAYERW >= tableW && PLAYER2TOP < BALLcenterY && BALLcenterY < PLAYER2BOT) {
+                BALLspeedX = -BALLspeedX;
+            } if (BALLposX + BALLwidth >= tableW) {
+                BALLspeedX = 0;
+                BALLspeedY = 0;
+                countA += 1;
+                counter.textContent = countA + ':' + countB;
+                return false;
+
+            }
+            if (BALLposX <= PLAYERW && PLAYER1TOP < BALLcenterY && BALLcenterY < PLAYER1BOT) {
+                BALLspeedX = -BALLspeedX;
+            } if (BALLposX <= 0) {
+                BALLspeedX = 0;
+                BALLspeedY = 0;
+                countB += 1;
+                counter.textContent = countA + ':' + countB;
+                return false;
+
+
+            }
+
+
+            if (BALLposY + BALLwidth > tableH) {
+                BALLspeedY = -BALLspeedY;
+            }
+            if (BALLposY < 0) {
+                BALLspeedY = -BALLspeedY;
+            }
+
+            if (GO1) {
+                requestAnimationFrame(GO1)
+            }
+            else {
+                cancelAnimationFrame(GO1)
+            };
+
+        }
+
+
+        function PLAYERS(EO) {
+            EO = EO || window.event;
+
+            if (EO.code == 'ShiftLeft')
+                if (PLAYER1posY > 0) {
+                    PLAYER1posY -= PLAYER1speed;
+                    PLAYER1.style.top = PLAYER1posY + 'px';
+                } else { PLAYER1posY + PLAYERH > tableH };
+
+            if (EO.code == 'ControlLeft')
+                if (PLAYER1posY + PLAYERH < tableH) {
+                    PLAYER1posY += PLAYER1speed;
+                    PLAYER1.style.top = PLAYER1posY + 'px';
+                } else { PLAYER1posY = tableH - PLAYERH };
+
+            if (EO.code == 'ArrowUp')
+                if (PLAYER2posY > 0) {
+                    PLAYER2posY -= PLAYER2speed;
+                    PLAYER2.style.top = PLAYER2posY + 'px';
+                } else {
+                    PLAYER2posY = 0;
+                }
+
+            if (EO.code == 'ArrowDown')
+                if (PLAYER2posY + PLAYERH < tableH) {
+                    PLAYER2posY += PLAYER2speed;
+                    PLAYER2.style.top = PLAYER2posY + 'px';
+                } else {
+                    PLAYER2posY = tableH - PLAYERH;
+                }
+
+
+        }
+
+
+
+    </script>
+</body>
+
+</html>

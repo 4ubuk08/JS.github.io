@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tik-tak</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+   <svg id="container" width="400" height="400">
+
+<!--         <circle cx=160 cy=160 r=150 fill=white stroke=black />
+        <circle cx=160 cy=160 r=30 fill=white stroke=black />
+        <line x1=160 y1=160 x2=160 y2=30 stroke=black stroke-width=2 stroke-linecap=round />
+        <line x1=160 y1=160 x2=170 y2=50 stroke=black stroke-width=3 stroke-linecap=round />
+        <line x1=160 y1=160 x2=190 y2=80 stroke=black stroke-width=5 stroke-linecap=round /> -->
+    </svg>
+
+
+    <script>
+        "use strict"
+        const clockR = 150;
+            const space = clockR * 0.1;
+            const longH = clockR * 0.4;
+            const longM = clockR * 0.7;
+            const longS = clockR * 0.9; 
+            const numberR = clockR * 0.15;
+
+            const tabloCenterX = space + clockR;
+            const tabloCenterY = space + clockR;
+
+            const timerX=tabloCenterX*0.83;
+            const timerY=tabloCenterY*0.7;
+
+
+
+            clockCreate();
+            
+
+        function clockCreate() {
+            const cont = document.getElementById('container');
+            const tablo=document.createElementNS("http://www.w3.org/2000/svg",'circle');
+            tablo.setAttribute("stroke","black");
+            tablo.setAttribute("fill","yellow");
+            tablo.setAttribute("r",clockR);
+            tablo.setAttribute("cx",tabloCenterX);
+            tablo.setAttribute("cy",tabloCenterY);
+            cont.appendChild(tablo);
+
+        let startAngle = 360;
+            let startNumber = 12;
+            for (let i = 0; i < 12; i++) {
+
+
+                let number = document.createElementNS("http://www.w3.org/2000/svg",'circle');
+                number.setAttribute("stroke","black");
+                number.setAttribute("fill","green");
+                number.setAttribute("r",numberR);
+
+                let numberCenterX = tabloCenterX + clockR * 0.8 * Math.sin(startAngle / 180 * Math.PI);
+                let numberCenterY = tabloCenterY - clockR * 0.8 * Math.cos(startAngle / 180 * Math.PI);
+
+                    number.setAttribute("cx",Math.round(numberCenterX));
+                    number.setAttribute("cy",Math.round(numberCenterY));
+                cont.appendChild(number);
+
+
+                let text = document.createElementNS("http://www.w3.org/2000/svg",'text');
+                text.textContent=startNumber;
+                text.style.fill="black";
+                text.setAttribute("text-anchor","middle");
+                cont.appendChild(text);
+
+                text.setAttribute("x",Math.round(numberCenterX));
+                text.setAttribute("y",Math.round(numberCenterY));
+
+
+                startAngle -= 30;
+                startNumber -= 1; 
+         } 
+
+         let timer = document.createElementNS("http://www.w3.org/2000/svg",'text');
+            timer.textContent="00:00:00";
+            cont.appendChild(timer);
+            timer.setAttribute("x",timerX);
+                timer.setAttribute("y",timerY);
+
+         let sec = document.createElementNS("http://www.w3.org/2000/svg",'line');
+         sec.setAttribute("x1",tabloCenterX);
+         sec.setAttribute("y1",tabloCenterY);
+         sec.setAttribute("x2",tabloCenterX);
+         sec.setAttribute("y2",tabloCenterY-longS);
+         sec.setAttribute("stroke","black" );
+         sec.setAttribute("stroke-width", 2);
+         sec.setAttribute("stroke-linecap","round");
+         cont.appendChild(sec);
+
+
+           let minut = document.createElementNS("http://www.w3.org/2000/svg",'line');
+           minut.setAttribute("x1",tabloCenterX);
+           minut.setAttribute("y1",tabloCenterY);
+           minut.setAttribute("x2",tabloCenterX);
+           minut.setAttribute("y2",tabloCenterY-longM);
+           minut.setAttribute("stroke","black" );
+           minut.setAttribute("stroke-width", 3);
+           minut.setAttribute("stroke-linecap","round");
+         cont.appendChild(minut);
+
+
+           let hour = document.createElementNS("http://www.w3.org/2000/svg",'line');
+           hour.setAttribute("x1",tabloCenterX);
+           hour.setAttribute("y1",tabloCenterY);
+           hour.setAttribute("x2",tabloCenterX);
+           hour.setAttribute("y2",tabloCenterY-longH);
+           hour.setAttribute("stroke","black" );
+           hour.setAttribute("stroke-width", 5);
+           hour.setAttribute("stroke-linecap","round");
+         cont.appendChild(hour);
+
+clock ();
+         setInterval(clock, 1000);
+
+         function clock() {
+                let nowTime = new Date();
+                let nowHours = nowTime.getHours();
+                let nowMimutes = nowTime.getMinutes();
+                let nowSeconds = nowTime.getSeconds();
+                let hourPos = nowHours * 30 + nowMimutes * 0.5;
+                let minutePos = nowMimutes * 6 + nowSeconds * 0.1;
+                let secondsPos = nowSeconds * 6;
+                timer.textContent=str0l(nowHours) + ':' + str0l(nowMimutes) + ':' + str0l(nowSeconds);
+
+                sec.setAttribute("transform","rotate("+secondsPos+" "+tabloCenterX+" "+tabloCenterY+")");
+                minut.setAttribute("transform","rotate("+minutePos+" "+tabloCenterX+" "+tabloCenterY+")");
+                hour.setAttribute("transform","rotate("+hourPos+" "+tabloCenterX+" "+tabloCenterY+")");
+/* 
+                sec.style.transform = 'rotate(' + secondsPos + 'deg)';
+                minut.style.transform = 'rotate(' + minutePos + 'deg)';
+                hour.style.transform = 'rotate(' + hoursPos + 'deg)'; */
+            }
+
+            function str0l(val) {
+                let strVal = val.toString();
+                if (strVal.length < 2)
+                    strVal = '0' + strVal;
+                return strVal;
+            }
+           }
+
+
+        </script>
+
+</body>
+
+</html>

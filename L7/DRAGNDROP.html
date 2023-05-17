@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Поднять и уронить</title>
+</head>
+
+<body>
+
+
+    <img src="pokemon.png" alt="покемон">
+    <img src="sponge.png" alt="тимон">
+    <img src="homer.png" alt="Гомер">
+<!--     <img src="futu.png" alt="">  -->
+    <img src="rick.png" alt="">
+
+    <script>
+
+        "use strict"
+
+        window.addEventListener('load', pageStart, false);
+
+    function pageStart(){
+        let allImg = document.getElementsByTagName("img");
+        for (const i of allImg) {
+            i.style.cursor = "grab";
+            i.addEventListener("mousedown", Mdown, false);
+            let posX=i.offsetLeft;
+            let posY=i.offsetTop;
+            i.style.left=posX+'px';
+            i.style.top=posY+'px';
+          
+        }
+        for (const i of allImg) {
+            i.style.position="absolute";
+       
+        }
+    }
+
+
+        function Mdown(EO) {
+            EO = EO || window.event;
+            EO.preventDefault();
+            const object = EO.currentTarget;
+            document.body.appendChild(object);
+            object.style.zIndex = 100;
+            object.style.cursor = "grabbing";
+
+
+            let mouseX = EO.clientX - object.getBoundingClientRect().left;
+            let mouseY = EO.clientY - object.getBoundingClientRect().top;
+
+            document.addEventListener("mousemove", Mmove, false)
+            object.addEventListener("mouseup", Mup, false)
+
+            function Mmove(EO) {
+                EO = EO || window.event;
+                EO.preventDefault();
+                object.style.left = EO.pageX - mouseX + 'px';
+                object.style.top = EO.pageY - mouseY + 'px';
+                
+                
+            }
+
+
+            function Mup(EO) {
+                document.removeEventListener("mousemove", Mmove, false);
+                object.removeEventListener("mouseup", Mdown, false);
+                object.style.cursor = "grab";
+
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

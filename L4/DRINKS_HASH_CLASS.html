@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Алкомаркет
+    </title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <script>
+        "use strict"
+
+
+        class HashStorageFunc {
+            constructor() {
+                this.alco = {};
+            }
+
+            addValue(key, value) {
+                this.alco[key] = value;
+            }
+
+            getValue(key) {
+
+                if (key in this.alco)
+                    return 'алкогольность ' + (this.alco[key].a === true ? "да" : "нет") + " рецепт " + this.alco[key].b;
+                else
+                    return 'нема такого, пробуй ещё';
+            }
+
+            deleteValue(key) {
+                if (key in this.alco) { delete this.alco[key]; return "готово"; }
+                else return "иди в сраку, нет такого";
+
+            }
+
+            getKeys() {
+                var all = [];
+                for (var i in this.alco)
+                    all.push(i);
+                return all;
+            }
+        }
+
+        var drinkStorage = new HashStorageFunc();
+
+
+        function userAddValue() {
+            let name = prompt("Введите название алко");
+
+            let alco = confirm("Если он алкогольный, нажмите ОК, если нет Отмена");
+            let recept = prompt('Введите его рецепт')
+            drinkStorage.addValue(name, { a: alco, b: recept });
+            alert("Готово! Добавлен алкоголь: " + name + " Алкогольный: " + (alco ? 'да' : 'нет') + ' рецепт ' + recept);
+        }
+
+        function userGetValue() {
+            let name = prompt("Введите название алко");
+            alert(drinkStorage.getValue(name));
+        }
+
+        function userDeleteValue() {
+            let name = prompt("Введите название алко");
+            (alert(drinkStorage.deleteValue(name)))
+
+        }
+
+        function userGetKeys() {
+            alert(drinkStorage.getKeys());
+        }
+
+    </script>
+
+    <input type="button" value="Добавить алко" onclick="userAddValue()">
+    <input type="button" value="Просмотреть алко" onclick="userGetValue()">
+    <input type="button" value="Удалить алко" onclick="userDeleteValue()">
+    <input type="button" value="Список алко" onclick="userGetKeys()">
+    
+    <input type="button" value="Добавить алко" onclick="userAddValue()">
+    <input type="button" value="Просмотреть алко" onclick="userGetValue()">
+    <input type="button" value="Удалить алко" onclick="userDeleteValue()">
+    <input type="button" value="Список алко" onclick="userGetKeys()">
+
+</body>
+
+</html>
