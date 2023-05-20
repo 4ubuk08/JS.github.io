@@ -6,9 +6,16 @@
 
 <body>
   <style>
-    .forward {
+    .forwardL {
       text-decoration: underline;
+      font-size: 100%;
     }
+
+    .forwardA {
+      text-decoration: underline;
+      font-size: 90%;
+    }
+
     #ListP {
         float: left;
       } 
@@ -30,18 +37,27 @@
     'use strict'
     window.onhashchange = switchToStateFromURLHash;
     let SPAState = {};
-    let articles = {
-      1: { artN: "Собака", artID: 1 },
-      2: { artN: "Жопа", artID: 2 },
-      3: { artN: "Жираф", artID: 3 },
-      4: { artN: "Обезьяна", artID: 4 },
-      5: { artN: "Бурундук", artID: 5 }
-    };
+    let articles = {};
     let articlesNames = [];
 
+    LoadJSONArticles();
+
+    function LoadJSONArticles() {
+      $.ajax("https://4ubuk08.github.io/JS.github.io/L14/all_articles.json",
+        { type: 'GET', dataType: 'JSON', success: dataLoaded, error: errorHandler }
+      );
+    }
+
+    function dataLoaded(data) {
+      articles= data;
+      checkNames(articles);
+    }
+
+    function errorHandler(jqXHR, statusStr, errorStr) {
+      alert(statusStr + ' ' + errorStr);
+    }
 
     
-
 
     function checkNames(articlesList) {
       for (const key in articlesList) {
@@ -53,7 +69,7 @@
       }
     }
 
-    checkNames(articles);
+    
 
     function getIdByName(value) {
       for (const key in articles) {
@@ -79,6 +95,7 @@
 
 
     function switchToStateFromURLHash() {
+      
 
       function LoadArticles(id) {
       $.ajax("https://4ubuk08.github.io/JS.github.io/L14/art_" + id + ".html",
@@ -119,11 +136,12 @@
       switch (SPAState.pagename) {
         case 'Main':
           pageHTML += "<h1 align=center >Энциклопедия</h3>";
-          pageHTML += "<p align=center id=list1 class=forward>Список статей здесь</p>";
+          pageHTML += "<p align=center id=list1 class=forwardL>Список статей здесь</p>";
           document.getElementById('artP').innerHTML = "";
           break;
 
         case 'List':
+        
           pageHTML += "<h2 align=center>Оглавление</h2>";
           articlesNames.sort();
 
@@ -137,7 +155,7 @@
               firstL = elementStr[0];
              listHTML += "<h2>" + firstL + "</h2>";
             }
-            listHTML += "<p class=forward id=" + getIdByName(element) + ">" + element + "</p>";
+            listHTML += "<p class=forwardL id=" + getIdByName(element) + ">" + element + "</p>";
             document.getElementById('artP').innerHTML = "";
           }
           break;
@@ -159,7 +177,7 @@
               firstL2 = elementStr[0];
               listHTML += "<h2>" + firstL2 + "</h2>";
             }
-            listHTML += "<p class=forward id=" + getIdByName(element) + ">" + element + "</p>";
+            listHTML += "<p class=forwardA id=" + getIdByName(element) + ">" + element + "</p>";
           }
 
           break;
@@ -172,8 +190,9 @@
       document.getElementById('ListP').innerHTML = listHTML;
 
       function articleChose() {
-        if (articlesNames.includes(stateStr)) {
-          alert(stateStr)
+        let stateStrTime = stateStr;
+        if (articlesNames.includes(stateStrTime)) {
+          location.hash = "Art_"+getIdByName(stateStrTime);
         } else {
           alert("К сожалению такая статья отсутствует")
         }
