@@ -108,7 +108,7 @@
         form.elements.URL.addEventListener("blur", validationURL, false)
         form.elements.date.addEventListener("blur", validationDate, false)
         form.elements.members.addEventListener("blur", validationNumber, false)
-        form.elements.mail.addEventListener("blur", validationText, false)
+        form.elements.mail.addEventListener("blur", validationMail, false)
         form.elements.rubrick.addEventListener("blur", validationCombi, false)
 
         const inputRadio1 = document.getElementById("radio1");
@@ -146,17 +146,13 @@
 
         function validationURL(EO) {
             EO = EO || window.event;
-            let URLREG=/^http:\\\\.+$/;
+            let URLREG=/http?:\/\/(?:www\.)?([-\w@:%\.\+~#=]{1,256}\.[a-z0-9()]{1,6})?\b[-\w()@:%\.\+~#=//?&]*/i;
             const input = EO.currentTarget;
             const parentDiv = input.parentNode;
             let enterText = input.value.trim();
 
-            if (!URLREG.test(enterText)) {
-                alert('Ошибка')
-            } else {alert('Ура')}
 
-
-        /*  if ((!URLREG.test(enterText))& (parentDiv.querySelector(".alert") == null)) {
+         if ((!URLREG.test(enterText))& (parentDiv.querySelector(".alert") == null)) {
                 let alert = document.createElement('div')
                 alert.classList.add("alert")
                 let text = document.createTextNode('Адрес должен начинаться с http://')
@@ -170,7 +166,34 @@
                         parentDiv.lastChild.remove();
                     }
                 }
-            } */
+            }
+
+        }
+
+
+        function validationMail(EO) {
+            EO = EO || window.event;
+            let MailREG=/^[A-Z0-9._%+-]+@[A-Z0-9-]+.[A-Z]{2,4}$/i;
+            const input = EO.currentTarget;
+            const parentDiv = input.parentNode;
+            let enterText = input.value.trim();
+
+
+         if ((!MailREG.test(enterText))& (parentDiv.querySelector(".alert") == null)) {
+                let alert = document.createElement('div')
+                alert.classList.add("alert")
+                let text = document.createTextNode('ВВедите корректный мэйл')
+                alert.appendChild(text);
+                parentDiv.appendChild(alert);
+            } 
+            else {
+                if (!MailREG.test(enterText) & (parentDiv.querySelector(".alert") != null)) {
+                } else {
+                    if (parentDiv.querySelector(".alert") != null) {
+                        parentDiv.lastChild.remove();
+                    }
+                }
+            }
 
         }
 
