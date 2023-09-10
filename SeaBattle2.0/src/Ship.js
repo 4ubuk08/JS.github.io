@@ -126,6 +126,9 @@ class Ship {
                 ship.style.left = `${posX - left}px`;
                 ship.style.top = `${posY - top}px`;
                 
+            } else {
+                div.style.left = `${startX}px`;
+                div.style.top = `${startY}px`;
             };
 
             // this.ops();
