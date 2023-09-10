@@ -1,4 +1,4 @@
-console.log('hello pidar!');
+console.log('Старт');
 
 const app = new Application();
 
