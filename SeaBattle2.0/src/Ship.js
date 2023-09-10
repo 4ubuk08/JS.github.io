@@ -84,6 +84,7 @@ class Ship {
         // }
 
         function shipStop(element) {
+            console.log("щзы");
             const ship = element.target;
             const { x, y } = ship.getBoundingClientRect();
 
@@ -117,11 +118,10 @@ class Ship {
                     }
                 }
 
-                // for(let i = 0; i <= ship.dataset.size; i++){
-                    const item = app.player.matrix[itemY][itemX+i];
-               item.ship = ship;
-            // }   
-                console.log(app.player.matrix)
+            //     for(let i = 0; i <= ship.dataset.size; i++){
+            //         const item = app.player.matrix[itemY][itemX+i];
+            //    item.ship = ship;
+            //     console.log(app.player.matrix)
 
                 ship.style.left = `${posX - left}px`;
                 ship.style.top = `${posY - top}px`;
