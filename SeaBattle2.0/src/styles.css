@@ -37,6 +37,18 @@ body {
     padding: 10px;
 }
 
+.info {
+	text-align: center;
+	position: relative;
+	top: 200px;
+	width: 180px;
+	height: 40px; 
+    margin: 10px;
+    padding: 10px;
+	background-color: rgb(255, 255, 255);
+	/* border: solid 1px black; */
+}
+
 .battle-field {
 	position: relative;
 }
@@ -79,11 +91,12 @@ body {
 	position: absolute;
 	top: 0;
 	left: 0;
-	margin: -3px;
+	margin: 0px;
+	padding: 0px;
 	border: 3px solid #0400ff;
 	background: rgba(0, 55, 255, 0.45);
-	width: 32px;
-	height: 32px;
+	width: 29px;
+	height: 29px;
 }
 
 .ship-row-1 {
@@ -94,11 +107,11 @@ body {
 }
 
 .ship-row-3 {
-	width: 98px;
+	width: 99px;
 }
 
 .ship-row-4 {
-	width: 131px;
+	width: 134px;
 }
 
 .ship-column-1 {
@@ -109,9 +122,9 @@ body {
 }
 
 .ship-column-3 {
-	height: 98px;
+	height: 99px;
 }
 
 .ship-column-4 {
-	height: 131px;
+	height: 134px;
 }

@@ -59,7 +59,7 @@ class Battlefield {
             const item = this.items[0][x];
             const marker = document.createElement('div');
             marker.classList.add('marker', 'marker-column');
-            marker.textContent = "АБВГДЕЖЗИК"[x];
+            marker.textContent = "ABCDEFGHIJ"[x];
             item.appendChild(marker);
         }
 

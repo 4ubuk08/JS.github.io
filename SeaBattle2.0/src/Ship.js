@@ -15,77 +15,57 @@ class Ship {
         div.classList.add('ship');
         div.dataset.direction = direction;
         div.dataset.size = size;
+        div.dataset.startX = startX;
+        div.dataset.startY = startY;
         div.style.left = `${startX}px`;
         div.style.top = `${startY}px`;
-        this.setDirection(div);
+        div.style.cursor = "grab";
+        setDirection(div);
 
 
-        div.addEventListener("mousedown", (this.shipMoveStart));
-        div.addEventListener("dblclick", () => this.setDirection(div, true));
+        div.addEventListener("mousedown", this.shipMoveStart);
+        div.addEventListener("dblclick", () => setDirection(div, true));
 
-
-        // for (let i = 0; i < this.ships.length; i++) {
-        //     const element = this.ships[i];
-        //     // element.addEventListener("mousedown", this.shipMoveStart);
-        //     element.addEventListener("mousedown", (this.shipMoveStart));
-        //     element.addEventListener("dblclick", () => this.setDirection(element, true));
-        // }
     }
 
 
     shipMoveStart(element) {
         element.preventDefault();
         const ship = element.target;
-        const parent = ship.parentElement.parentElement;
+        
+        ship.style.zIndex = 1000;
+        ship.style.cursor = "grabbing"
+        const parent = ship.parentElement.parentElement.firstChild;
 
+        //получаем координаты корабля и родительского спозиционированного элемента
         let { x, y } = ship.getBoundingClientRect();
         let { left, top } = parent.getBoundingClientRect();
 
+        //расстояние относительно родителя
         const posX = x - left;
         const posY = y - top;
 
-        const addX = x;
-        const addY = y;
-
-
         const differenceX = element.clientX - x;
         const differenceY = element.clientY - y;
-
-        /* console.log(parent.getBoundingClientRect());
-        console.log(element.clientX, element.clientY);
-        console.log(x, y);
-        console.log(ship.getBoundingClientRect()); */
-
-
 
         ship.style.position = "absolute";
         ship.style.left = `${posX}px`;
         ship.style.top = `${posY}px`;
 
         document.addEventListener('mousemove', shipMove);
-        // ship.addEventListener('mouseleave', shipMove);
         ship.addEventListener('mouseup', shipStop)
 
         function shipMove(element) {
-            // console.log({ element });
             element.preventDefault();
             ship.style.left = `${element.x - differenceX - left}px`;
             ship.style.top = `${element.y - differenceY - top}px`;
-            // console.log(element.x, element.y);
         }
 
-        //     // Event.preventDefault();
-        //     const ship = element.target;
-        //     let x = element.x;
-        //     let y = element.y;
-
-        //     ship.style.left = `${x}px`;
-        //     ship.style.top = `${y}px`;
-        // }
 
         function shipStop(element) {
-            console.log("щзы");
+            
             const ship = element.target;
+            
             const { x, y } = ship.getBoundingClientRect();
 
             const battlefield = ship.parentElement.previousSibling;
@@ -94,13 +74,14 @@ class Ship {
             //если корабль над игровым полем
             if (left <= x && x <= left + width && top <= y && y <= top + height) {
 
+
                 let posX = null;
                 let posY = null;
 
                 let itemX = null;
                 let itemY = null;
 
-                
+
                 const items = app.player.items.flat();
                 //проверяем над какой конкретно ячейкой
                 for (let index = 0; index < items.length; index++) {
@@ -118,23 +99,24 @@ class Ship {
                     }
                 }
 
-            //     for(let i = 0; i <= ship.dataset.size; i++){
-            //         const item = app.player.matrix[itemY][itemX+i];
-            //    item.ship = ship;
-            //     console.log(app.player.matrix)
+                console.log(app.player.matrix)
 
                 ship.style.left = `${posX - left}px`;
                 ship.style.top = `${posY - top}px`;
-                
+
+                //Если корабль не над игровым полем ставим в первоначальные координаты
             } else {
-                ship.style.left = `${startX}px`;
-                ship.style.top = `${startY}px`;
+                ship.dataset.direction = 'column';
+                setDirection(ship, true);
+                ship.style.left = `${Number(ship.dataset.startX)}px`;
+                ship.style.top = `${Number(ship.dataset.startY)}px`;
             };
 
             // this.ops();
+            //    ship.style.cursor = "grab";
             document.removeEventListener("mousemove", shipMove);
             ship.removeEventListener('mouseup', shipStop);
-            console.count();
+
         }
 
 
@@ -145,23 +127,5 @@ class Ship {
     }
 
 
-    setDirection(ship, change = false) {
-        if (change === false) {
-            ship.classList.remove(`ship-${ship.dataset.direction}-${ship.dataset.size}`);
-            ship.classList.add(`ship-${ship.dataset.direction}-${ship.dataset.size}`);
-        } else {
-            if (ship.dataset.direction === "row") {
-                ship.classList.remove(`ship-${ship.dataset.direction}-${ship.dataset.size}`);
-                ship.dataset.direction = "column";
-                this.setDirection(ship);
-            } else {
-                ship.classList.remove(`ship-${ship.dataset.direction}-${ship.dataset.size}`);
-                ship.dataset.direction = "row";
-                this.setDirection(ship);
-            }
-        }
-
-
-
-    }
+    
 }

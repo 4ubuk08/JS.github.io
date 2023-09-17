@@ -18,9 +18,6 @@ class Application {
             const ship = new Ship(size, direction, startX, startY);  
             this.player.addShip(ship);
         } 
-        // for (const {size, direction, startX, startY} of ships) {
-        //     const ship = new Ship(size, direction, startX, startY);  
-        //     this.computer.addShip(ship);
-        // } 
+
     }    
 }
