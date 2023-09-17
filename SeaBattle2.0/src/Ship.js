@@ -65,7 +65,7 @@ class Ship {
         function shipStop(element) {
             
             const ship = element.target;
-            
+            ship.style.cursor = "grab";
             const { x, y } = ship.getBoundingClientRect();
 
             const battlefield = ship.parentElement.previousSibling;
